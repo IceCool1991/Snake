@@ -11,22 +11,14 @@ package snake;
  */
 public class Food {
 
-    private int foodX; // Stores X pos of our food
-    private int foodY; // Stores Y pos of our food
     private Node node;
-    
-    public void createFood() {
 
-    // Set our food's x & y position to a random position
+    public Food(Snake snake) {
 
-    int location = (int) (Math.random() * RANDOMPOSITION);
-    foodX = ((location * Board.getDotSize()));
-
-    location = (int) (Math.random() * RANDOMPOSITION);
-    foodY = ((location * Board.getDotSize()));
-
-    if ((foodX == snake.getSnakeX(0)) && (foodY == snake.getSnakeY(0))) {
-        createFood();
+        // Set our food's x & y position to a random position
+        int row = (int) (Math.random() * Board.NUM_ROWS);
+        int col = (int) (Math.random() * Board.NUM_COLS);
+        
+        
     }
-}
 }

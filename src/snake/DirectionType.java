@@ -10,5 +10,5 @@ package snake;
  * @author alu26600537w
  */
 public enum DirectionType {
-    up, down, left, right
+    UP, DOWN, LEFT, RIGHT
 }

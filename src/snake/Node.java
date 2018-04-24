@@ -5,11 +5,21 @@
  */
 package snake;
 
+import java.awt.Color;
+
 /**
  *
  * @author alu26600537w
  */
 public class Node {
-    private int row;
-    private int col;
+
+    public int row;
+    public int col;
+    public Color color;
+
+    public Node(int row, int col, Color color) {
+        this.col = col;
+        this.row = row;
+        this.color = color;
+    }
 }
