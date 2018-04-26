@@ -17,51 +17,59 @@ public class Snake {
 
     private ArrayList<Node> listNodes;
     private DirectionType direction;
-    public int snakeLength;
 
-    
     public Snake(int snakeLength) {
         listNodes = new ArrayList<Node>();
-        for(int i = 0; i<3;i++){
-            listNodes.add(new Node(Board.NUM_ROWS/2, Board.NUM_COLS/2 - i, Color.BLUE));
+        for (int i = 0; i < snakeLength; i++) {
+            listNodes.add(new Node(Board.NUM_ROWS / 2, Board.NUM_COLS / 2 - i, Color.BLUE));
         }
-        this.direction = DirectionType.RIGHT;
-        this.snakeLength = snakeLength;
+        Node head = listNodes.get(0);
+        head.color = Color.RED;
+        direction = DirectionType.RIGHT;
     }
-    
-    public void eatFood(Node node){
+
+    public void eatFood(Node node) {
         listNodes.add(node);
-        snakeLength++;
     }
-    
+
     public void draw(Graphics g, int squareWidth, int squareHeight) {
-        for (Node node: listNodes) {
+        for (Node node : listNodes) {
             Util.drawSquare(g, node.row, node.col, node.color, squareWidth, squareHeight);
         }
     }
-    
-//    private void move() {
-//
-//        for (int z = snake.snakeLength; z > 0; z--) {
-//            x[z] = x[(z - 1)];
-//            y[z] = y[(z - 1)];
-//        }
-//
-//        switch (direction) {
-//            case LEFT:
-//                x[0] -= DOT_SIZE;
-//                break;
-//            case RIGHT:
-//                x[0] += DOT_SIZE;
-//                break;
-//            case UP:
-//                y[0] -= DOT_SIZE;
-//                break;
-//            case DOWN:
-//                y[0] += DOT_SIZE;
-//                break;
-//            default:
-//                break;
-//        }
-//    }
+
+    public DirectionType getDirection() {
+        return direction;
+    }
+
+    public void setDirection(DirectionType direction) {
+        this.direction = direction;
+    }
+
+    public void move() {
+        Node head = listNodes.get(0);
+        Node node = new Node(head.row, head.col, head.color);
+        switch (direction) {
+            case LEFT:
+                node.col--;
+                listNodes.add(0, node);
+                break;
+            case RIGHT:
+                node.col++;
+                listNodes.add(0, node);
+                break;
+            case UP:
+                node.row--;
+                listNodes.add(0, node);
+                break;
+            case DOWN:
+                node.row++;
+                listNodes.add(0, node);
+                break;
+            default:
+                break;
+        }
+        head.color = Color.BLUE;
+        listNodes.remove(listNodes.size() - 1);
+    }
 }
