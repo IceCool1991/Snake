@@ -5,7 +5,9 @@
  */
 package snake;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -41,6 +43,7 @@ public class Board extends JPanel implements ActionListener {
         super();
         timer = new Timer(deltaTime, this);
         keyAdapter = new MyKeyAdapter();
+        setBackground(Color.BLACK);
     }
 
     public void initValues() {
@@ -75,13 +78,51 @@ public class Board extends JPanel implements ActionListener {
             snake.draw(g, squareWidth(), squareHeight());
         }
     }
-    
-    
+
+    private boolean collisions() {
+        Node head = snake.listNodes.get(0);
+        switch (snake.getDirection()) {
+            case LEFT:
+                if (head.col - 1 < 0) {
+                    return true;
+                }
+                break;
+            case RIGHT:
+                if (head.col + 1 >= NUM_COLS) {
+                    return true;
+                }
+                break;
+            case UP:
+                if (head.row - 1 < 0) {
+                    return true;
+                }
+                break;
+            case DOWN:
+                if (head.row + 1 >= NUM_ROWS) {
+                    return true;
+                }
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+    private void gameOver() {
+        timer.stop();
+        //scoreBoard.gameOver();
+    }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        snake.move();
-        repaint();
+        if (collisions()) {
+            gameOver();
+        } else {
+            snake.move();
+            repaint();
+            Toolkit.getDefaultToolkit().sync();
+        }
+
     }
 
     class MyKeyAdapter extends KeyAdapter {

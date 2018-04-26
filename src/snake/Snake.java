@@ -15,13 +15,13 @@ import java.util.ArrayList;
  */
 public class Snake {
 
-    private ArrayList<Node> listNodes;
+    protected ArrayList<Node> listNodes;
     private DirectionType direction;
 
     public Snake(int snakeLength) {
         listNodes = new ArrayList<Node>();
         for (int i = 0; i < snakeLength; i++) {
-            listNodes.add(new Node(Board.NUM_ROWS / 2, Board.NUM_COLS / 2 - i, Color.BLUE));
+            listNodes.add(new Node(Board.NUM_ROWS / 2, Board.NUM_COLS / 2 - i, Color.GREEN));
         }
         Node head = listNodes.get(0);
         head.color = Color.RED;
@@ -69,7 +69,7 @@ public class Snake {
             default:
                 break;
         }
-        head.color = Color.BLUE;
+        head.color = Color.GREEN;
         listNodes.remove(listNodes.size() - 1);
     }
 }
