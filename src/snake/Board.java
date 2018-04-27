@@ -31,11 +31,9 @@ public class Board extends JPanel implements ActionListener {
     private int deltaTime;
 
     private Food food;
-    private int foodX;
-    private int foodY;
 
     private Snake snake;
-    private Timer timer;
+    private final Timer timer;
 
     private boolean gameOver;
 
@@ -45,13 +43,17 @@ public class Board extends JPanel implements ActionListener {
         keyAdapter = new MyKeyAdapter();
         setBackground(Color.BLACK);
     }
+    
+    public void setScoreBoard(ScoreBoard scoreBoard){
+        this.scoreBoard = scoreBoard;
+    }
 
     public void initValues() {
         setFocusable(true);
         requestFocusInWindow();
         deltaTime = 100;
         gameOver = false;
-        snake = new Snake(30);
+        snake = new Snake(3);
         food = new Food(snake);
     }
 
@@ -87,22 +89,22 @@ public class Board extends JPanel implements ActionListener {
         Node head = snake.listNodes.get(0);
         switch (snake.getDirection()) {
             case LEFT:
-                if (head.col < 0) {
+                if (head.col - 1 < 0) {
                     gameOver = true;
                 }
                 break;
             case RIGHT:
-                if (head.col >= NUM_COLS) {
+                if (head.col + 1 >= NUM_COLS) {
                     gameOver = true;
                 }
                 break;
             case UP:
-                if (head.row < 0) {
+                if (head.row - 1 < 0) {
                     gameOver = true;
                 }
                 break;
             case DOWN:
-                if (head.row >= NUM_ROWS) {
+                if (head.row - 1 >= NUM_ROWS) {
                     gameOver = true;
                 }
                 break;
@@ -118,6 +120,7 @@ public class Board extends JPanel implements ActionListener {
         }
         if(head.row == food.row && head.col == food.col){
             snake.eatFood();
+            scoreBoard.increment(1);
             food = new Food(snake);
         }
     }
@@ -125,7 +128,7 @@ public class Board extends JPanel implements ActionListener {
     private void checkGameOver() {
         if (gameOver) {
             timer.stop();
-            //scoreBoard.gameOver();
+            scoreBoard.gameOver();
         }
     }
 
@@ -138,7 +141,6 @@ public class Board extends JPanel implements ActionListener {
             repaint();
             Toolkit.getDefaultToolkit().sync();
         }
-
     }
 
     class MyKeyAdapter extends KeyAdapter {
