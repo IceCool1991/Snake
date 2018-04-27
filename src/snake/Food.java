@@ -5,20 +5,34 @@
  */
 package snake;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 /**
  *
  * @author alu26600537w
  */
 public class Food {
 
-    private Node node;
+    protected int row, col;
 
     public Food(Snake snake) {
-
         // Set our food's x & y position to a random position
-        int row = (int) (Math.random() * Board.NUM_ROWS);
-        int col = (int) (Math.random() * Board.NUM_COLS);
-        
-        
+        boolean hit = true;
+        while (hit) {
+            hit = false;
+            row = (int) (Math.random() * Board.NUM_ROWS);
+            col = (int) (Math.random() * Board.NUM_COLS);
+
+            for (Node n : snake.listNodes) {
+                if (n.col == col && n.row == row) {
+                    hit = true;
+                }
+            }
+        }
+    }
+
+    public void draw(Graphics g, int squareWidth, int squareHeight) {
+        Util.drawSquare(g, row, col, Color.YELLOW, squareWidth, squareHeight);
     }
 }

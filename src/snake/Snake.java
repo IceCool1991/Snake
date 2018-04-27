@@ -28,8 +28,30 @@ public class Snake {
         direction = DirectionType.RIGHT;
     }
 
-    public void eatFood(Node node) {
-        listNodes.add(node);
+    public void eatFood() {
+        Node head = listNodes.get(0);
+        Node node = new Node(head.row, head.col, head.color);
+        switch (direction) {
+            case LEFT:
+                node.col--;
+                listNodes.add(0, node);
+                break;
+            case RIGHT:
+                node.col++;
+                listNodes.add(0, node);
+                break;
+            case UP:
+                node.row--;
+                listNodes.add(0, node);
+                break;
+            case DOWN:
+                node.row++;
+                listNodes.add(0, node);
+                break;
+            default:
+                break;
+        }
+        head.color = Color.GREEN;
     }
 
     public void draw(Graphics g, int squareWidth, int squareHeight) {

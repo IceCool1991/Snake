@@ -51,7 +51,8 @@ public class Board extends JPanel implements ActionListener {
         requestFocusInWindow();
         deltaTime = 100;
         gameOver = false;
-        snake = new Snake(3);
+        snake = new Snake(30);
+        food = new Food(snake);
     }
 
     public void initGame() {
@@ -77,47 +78,62 @@ public class Board extends JPanel implements ActionListener {
         if (snake != null) {
             snake.draw(g, squareWidth(), squareHeight());
         }
+        if (food != null){
+            food.draw(g, squareWidth(), squareHeight());
+        }
     }
 
-    private boolean collisions() {
+    private void collisions() {
         Node head = snake.listNodes.get(0);
         switch (snake.getDirection()) {
             case LEFT:
-                if (head.col - 1 < 0) {
-                    return true;
+                if (head.col < 0) {
+                    gameOver = true;
                 }
                 break;
             case RIGHT:
-                if (head.col + 1 >= NUM_COLS) {
-                    return true;
+                if (head.col >= NUM_COLS) {
+                    gameOver = true;
                 }
                 break;
             case UP:
-                if (head.row - 1 < 0) {
-                    return true;
+                if (head.row < 0) {
+                    gameOver = true;
                 }
                 break;
             case DOWN:
-                if (head.row + 1 >= NUM_ROWS) {
-                    return true;
+                if (head.row >= NUM_ROWS) {
+                    gameOver = true;
                 }
                 break;
             default:
                 break;
         }
-        return false;
+        for (Node n : snake.listNodes) {
+            if (n != head) {
+                if (head.col == n.col && head.row == n.row) {
+                    gameOver = true;
+                }
+            }
+        }
+        if(head.row == food.row && head.col == food.col){
+            snake.eatFood();
+            food = new Food(snake);
+        }
     }
 
-    private void gameOver() {
-        timer.stop();
-        //scoreBoard.gameOver();
+    private void checkGameOver() {
+        if (gameOver) {
+            timer.stop();
+            //scoreBoard.gameOver();
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (collisions()) {
-            gameOver();
-        } else {
+        collisions();
+        checkGameOver();
+        if (!gameOver) {
             snake.move();
             repaint();
             Toolkit.getDefaultToolkit().sync();
