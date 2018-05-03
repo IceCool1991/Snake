@@ -17,8 +17,10 @@ public class Snake {
 
     protected ArrayList<Node> listNodes;
     private DirectionType direction;
+    public boolean isTurning;
 
     public Snake(int snakeLength) {
+        isTurning = false;
         listNodes = new ArrayList<Node>();
         for (int i = 0; i < snakeLength; i++) {
             listNodes.add(new Node(Board.NUM_ROWS / 2, Board.NUM_COLS / 2 - i, Color.GREEN));

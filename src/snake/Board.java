@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Random;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -31,11 +33,21 @@ public class Board extends JPanel implements ActionListener {
     private int deltaTime;
 
     private Food food;
+    private SpecialFood specialFood;
+
+    private Random rand;
 
     private Snake snake;
     private final Timer timer;
 
     private boolean gameOver;
+    private boolean specialFoodIsVisible;
+
+    private JFrame parentFrame;
+
+    public void setParentFrame(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+    }
 
     public Board() {
         super();
@@ -43,18 +55,21 @@ public class Board extends JPanel implements ActionListener {
         keyAdapter = new MyKeyAdapter();
         setBackground(Color.BLACK);
     }
-    
-    public void setScoreBoard(ScoreBoard scoreBoard){
+
+    public void setScoreBoard(ScoreBoard scoreBoard) {
         this.scoreBoard = scoreBoard;
     }
 
     public void initValues() {
         setFocusable(true);
         requestFocusInWindow();
+        rand = new Random();
         deltaTime = 100;
         gameOver = false;
+        specialFoodIsVisible = false;
         snake = new Snake(3);
         food = new Food(snake);
+        specialFood = new SpecialFood(snake);
     }
 
     public void initGame() {
@@ -80,8 +95,11 @@ public class Board extends JPanel implements ActionListener {
         if (snake != null) {
             snake.draw(g, squareWidth(), squareHeight());
         }
-        if (food != null){
+        if (food != null) {
             food.draw(g, squareWidth(), squareHeight());
+        }
+        if (specialFood != null && specialFoodIsVisible) {
+            specialFood.draw(g, squareWidth(), squareHeight());
         }
     }
 
@@ -118,10 +136,21 @@ public class Board extends JPanel implements ActionListener {
                 }
             }
         }
-        if(head.row == food.row && head.col == food.col){
+        if (head.row == food.row && head.col == food.col) {
             snake.eatFood();
             scoreBoard.increment(1);
+            int randomNumber = rand.nextInt(5);
+            if (randomNumber == 0) {
+                specialFoodIsVisible = rand.nextBoolean();
+            }
             food = new Food(snake);
+        }
+
+        if (head.row == specialFood.row && head.col == specialFood.col && specialFoodIsVisible) {
+            snake.eatFood();
+            scoreBoard.increment(5);
+            specialFoodIsVisible = false;
+            specialFood = new SpecialFood(snake);
         }
     }
 
@@ -129,6 +158,8 @@ public class Board extends JPanel implements ActionListener {
         if (gameOver) {
             timer.stop();
             scoreBoard.gameOver();
+            RecordsDialog d = new RecordsDialog(parentFrame, true, scoreBoard.getScore());
+            d.setVisible(true);
         }
     }
 
@@ -140,6 +171,7 @@ public class Board extends JPanel implements ActionListener {
             snake.move();
             repaint();
             Toolkit.getDefaultToolkit().sync();
+            snake.isTurning = false;
         }
     }
 
@@ -151,26 +183,30 @@ public class Board extends JPanel implements ActionListener {
             switch (e.getKeyCode()) {
 
                 case KeyEvent.VK_UP:
-                    if (snake.getDirection() != DirectionType.DOWN) {
+                    if (snake.getDirection() != DirectionType.DOWN && !snake.isTurning) {
                         snake.setDirection(DirectionType.UP);
+                        snake.isTurning = true;
                     }
                     break;
 
                 case KeyEvent.VK_LEFT:
-                    if (snake.getDirection() != DirectionType.RIGHT) {
+                    if (snake.getDirection() != DirectionType.RIGHT && !snake.isTurning) {
                         snake.setDirection(DirectionType.LEFT);
+                        snake.isTurning = true;
                     }
                     break;
 
                 case KeyEvent.VK_RIGHT:
-                    if (snake.getDirection() != DirectionType.LEFT) {
+                    if (snake.getDirection() != DirectionType.LEFT && !snake.isTurning) {
                         snake.setDirection(DirectionType.RIGHT);
+                        snake.isTurning = true;
                     }
                     break;
 
                 case KeyEvent.VK_DOWN:
-                    if (snake.getDirection() != DirectionType.UP) {
+                    if (snake.getDirection() != DirectionType.UP && !snake.isTurning) {
                         snake.setDirection(DirectionType.DOWN);
+                        snake.isTurning = true;
                     }
                     break;
             }
