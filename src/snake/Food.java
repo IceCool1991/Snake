@@ -21,8 +21,8 @@ public class Food {
         boolean hit = true;
         while (hit) {
             hit = false;
-            row = (int) (Math.random() * Board.NUM_ROWS);
-            col = (int) (Math.random() * Board.NUM_COLS);
+            row = (int) (Math.random() * Board.getNUM_ROWS());
+            col = (int) (Math.random() * Board.getNUM_COLS());
 
             for (Node n : snake.listNodes) {
                 if (n.col == col && n.row == row) {

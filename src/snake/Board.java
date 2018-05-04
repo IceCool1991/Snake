@@ -23,8 +23,8 @@ import javax.swing.Timer;
  */
 public class Board extends JPanel implements ActionListener {
 
-    public static final int NUM_ROWS = 40;
-    public static final int NUM_COLS = 80;
+    private static int NUM_ROWS;
+    private static int NUM_COLS;
 
     MyKeyAdapter keyAdapter;
 
@@ -60,6 +60,23 @@ public class Board extends JPanel implements ActionListener {
         this.scoreBoard = scoreBoard;
     }
 
+    public static int getNUM_ROWS() {
+        return NUM_ROWS;
+    }
+
+    public static int getNUM_COLS() {
+        return NUM_COLS;
+    }
+
+    public static void setNUM_ROWS(int NUM_ROWS) {
+        Board.NUM_ROWS = NUM_ROWS;
+    }
+
+    public static void setNUM_COLS(int NUM_COLS) {
+        Board.NUM_COLS = NUM_COLS;
+    }
+    
+    
     public void initValues() {
         setFocusable(true);
         requestFocusInWindow();
@@ -73,6 +90,7 @@ public class Board extends JPanel implements ActionListener {
     }
 
     public void initGame() {
+        scoreBoard.reset();
         removeKeyListener(keyAdapter);
         initValues();
         timer.setDelay(deltaTime);
@@ -161,6 +179,11 @@ public class Board extends JPanel implements ActionListener {
             RecordsDialog d = new RecordsDialog(parentFrame, true, scoreBoard.getScore());
             d.setVisible(true);
         }
+    }
+    
+    public void viewRecords(){
+        RecordsDialog d = new RecordsDialog(parentFrame, true, 0);
+            d.setVisible(true);
     }
 
     @Override

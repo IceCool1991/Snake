@@ -1,11 +1,10 @@
 package snake;
 
-
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -37,7 +36,6 @@ public class RecordsDialog extends javax.swing.JDialog {
     private int score;
     private int minRecord;
     private JLabel[] recordLabels;
-    private InputStream file = getClass().getResourceAsStream("/High Scores.wav");
     private static final String FILE_NAME = "records.csv";
     private ArrayList<Record> listOfRecords;
 
@@ -48,7 +46,7 @@ public class RecordsDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.score = score;
-        listOfRecords = new ArrayList<Record>();
+        listOfRecords = new ArrayList<>();
         initRecordLabels();
         minRecord = 0;
         try {
@@ -60,18 +58,21 @@ public class RecordsDialog extends javax.swing.JDialog {
     }
 
     public void processRecord() {
-        jLabelScore.setText("Your Score: " + score);
-        if (score <= minRecord) {
+        if (score > 0) {
+            jLabelScore.setText("Your Score: " + score);
+            if (score <= minRecord) {
+                jLabelName.setVisible(false);
+                jTextFieldName.setVisible(false);
+            }
+        } else {
             jLabelName.setVisible(false);
             jTextFieldName.setVisible(false);
+            jLabelScore.setVisible(false);
         }
     }
 
-    private void readRecords() throws IOException {
-        BufferedReader input = null;
-
-        try {
-            input = new BufferedReader(new FileReader(FILE_NAME));
+    public void readRecords() throws IOException {
+        try (BufferedReader input = new BufferedReader(new FileReader(FILE_NAME))) {
             int lineCount = 0;
             String line;
             String[] lineRecords = null;
@@ -81,17 +82,15 @@ public class RecordsDialog extends javax.swing.JDialog {
                 lineCount++;
                 listOfRecords.add(new Record(Integer.parseInt(lineRecords[0]), lineRecords[1]));
             }
-            if (lineCount > 0) {
+            if (lineCount >= 5) {
                 try {
                     minRecord = Integer.parseInt(lineRecords[0]);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
             }
-        } finally {
-            if (input != null) {
-                input.close();
-            }
+        } catch (FileNotFoundException ex) {
+            jLabelScore.setText("No records yet");
         }
     }
 
@@ -234,7 +233,7 @@ public class RecordsDialog extends javax.swing.JDialog {
                 }
 
             }
-            if (!saved || lineCounter < 5) {
+            if (!saved && lineCounter < 5) {
                 output.println(score + "," + jTextFieldName.getText());
             }
         } catch (IOException ex) {

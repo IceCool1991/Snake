@@ -23,7 +23,7 @@ public class Snake {
         isTurning = false;
         listNodes = new ArrayList<Node>();
         for (int i = 0; i < snakeLength; i++) {
-            listNodes.add(new Node(Board.NUM_ROWS / 2, Board.NUM_COLS / 2 - i, Color.GREEN));
+            listNodes.add(new Node(Board.getNUM_ROWS() / 2, Board.getNUM_COLS() / 2 - i, Color.GREEN));
         }
         Node head = listNodes.get(0);
         head.color = Color.RED;

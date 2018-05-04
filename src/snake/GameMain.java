@@ -9,14 +9,16 @@ package snake;
  *
  * @author alu26600537w
  */
-public class Game extends javax.swing.JFrame {
+public class GameMain extends javax.swing.JFrame {
 
     /**
-     * Creates new form Game
+     * Creates new form GameMain
      */
-    public Game() {
+    public GameMain() {
         initComponents();
-        board1.setScoreBoard(scoreBoard);
+        board.setScoreBoard(scoreBoard);
+        SelectionDialog selection = new SelectionDialog(this, true, board);
+        selection.setVisible(true);
     }
 
     /**
@@ -29,45 +31,15 @@ public class Game extends javax.swing.JFrame {
     private void initComponents() {
 
         scoreBoard = new snake.ScoreBoard();
-        board1 = new snake.Board();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        gameStart = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        board = new snake.Board();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(900, 500));
-        setSize(new java.awt.Dimension(500, 900));
-        getContentPane().setLayout(new java.awt.BorderLayout());
+        setPreferredSize(new java.awt.Dimension(800, 620));
         getContentPane().add(scoreBoard, java.awt.BorderLayout.PAGE_END);
-
-        board1.setLayout(new java.awt.BorderLayout());
-        getContentPane().add(board1, java.awt.BorderLayout.CENTER);
-
-        jMenu1.setText("File");
-
-        gameStart.setText("Init Game");
-        gameStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gameStartActionPerformed(evt);
-            }
-        });
-        jMenu1.add(gameStart);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
+        getContentPane().add(board, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void gameStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameStartActionPerformed
-        board1.initGame();
-        scoreBoard.reset();
-    }//GEN-LAST:event_gameStartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -86,30 +58,26 @@ public class Game extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Game().setVisible(true);
+                new GameMain().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private snake.Board board1;
-    private javax.swing.JMenuItem gameStart;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
+    private snake.Board board;
     private snake.ScoreBoard scoreBoard;
     // End of variables declaration//GEN-END:variables
 }
