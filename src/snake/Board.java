@@ -54,6 +54,8 @@ public class Board extends JPanel implements ActionListener {
         timer = new Timer(deltaTime, this);
         keyAdapter = new MyKeyAdapter();
         setBackground(Color.BLACK);
+        NUM_COLS = 100;
+        NUM_ROWS = 100;
     }
 
     public void setScoreBoard(ScoreBoard scoreBoard) {
@@ -75,8 +77,7 @@ public class Board extends JPanel implements ActionListener {
     public static void setNUM_COLS(int NUM_COLS) {
         Board.NUM_COLS = NUM_COLS;
     }
-    
-    
+
     public void initValues() {
         setFocusable(true);
         requestFocusInWindow();
@@ -110,6 +111,7 @@ public class Board extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        drawBorder(g);
         if (snake != null) {
             snake.draw(g, squareWidth(), squareHeight());
         }
@@ -180,10 +182,10 @@ public class Board extends JPanel implements ActionListener {
             d.setVisible(true);
         }
     }
-    
-    public void viewRecords(){
+
+    public void viewRecords() {
         RecordsDialog d = new RecordsDialog(parentFrame, true, 0);
-            d.setVisible(true);
+        d.setVisible(true);
     }
 
     @Override
@@ -191,11 +193,22 @@ public class Board extends JPanel implements ActionListener {
         collisions();
         checkGameOver();
         if (!gameOver) {
+            if (scoreBoard.getScore() > 0 && scoreBoard.getScore() % 10 == 0) {
+                if (deltaTime > 50) {
+                    deltaTime -= 10;
+                    timer.setDelay(deltaTime);
+                }
+            }
             snake.move();
             repaint();
             Toolkit.getDefaultToolkit().sync();
             snake.isTurning = false;
         }
+    }
+
+    private void drawBorder(Graphics g) {
+        g.setColor(Color.white);
+        g.drawRect(0, 0, squareWidth() * NUM_COLS, squareHeight() * NUM_ROWS);
     }
 
     class MyKeyAdapter extends KeyAdapter {
@@ -230,6 +243,18 @@ public class Board extends JPanel implements ActionListener {
                     if (snake.getDirection() != DirectionType.UP && !snake.isTurning) {
                         snake.setDirection(DirectionType.DOWN);
                         snake.isTurning = true;
+                    }
+                    break;
+                case KeyEvent.VK_P:
+                    if (timer.isRunning()) {
+                        timer.stop();
+                    } else {
+                        timer.start();
+                    }
+                    break;
+                case KeyEvent.VK_R:
+                    if (!timer.isRunning()) {
+                        initGame();
                     }
                     break;
             }

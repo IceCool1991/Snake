@@ -5,6 +5,8 @@
  */
 package snake;
 
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author alu26600537w
@@ -36,8 +38,10 @@ public class SelectionDialog extends javax.swing.JDialog {
         hardButton = new javax.swing.JButton();
         selectionText = new java.awt.Label();
         viewRecords = new javax.swing.JButton();
+        exitButton = new javax.swing.JToggleButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         easyButton.setText("Easy");
         easyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -70,6 +74,13 @@ public class SelectionDialog extends javax.swing.JDialog {
             }
         });
 
+        exitButton.setText("Exit");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,6 +101,10 @@ public class SelectionDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                         .addComponent(hardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(363, 363, 363)
+                .addComponent(exitButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,33 +118,35 @@ public class SelectionDialog extends javax.swing.JDialog {
                     .addComponent(hardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(77, 77, 77)
                 .addComponent(viewRecords)
-                .addGap(146, 146, 146))
+                .addGap(109, 109, 109)
+                .addComponent(exitButton)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void easyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_easyButtonActionPerformed
-        board.setNUM_COLS(80);
+        board.setNUM_COLS(60);
         board.setNUM_ROWS(60);
         board.initGame();
-        getParent().resize(800, 600);
+        getParent().resize(600, 600);
         dispose();
     }//GEN-LAST:event_easyButtonActionPerformed
 
     private void mediumButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mediumButtonActionPerformed
-        board.setNUM_COLS(64);
-        board.setNUM_ROWS(48);
+        board.setNUM_COLS(40);
+        board.setNUM_ROWS(40);
         board.initGame();
-        getParent().resize(640, 480);
+        getParent().resize(400, 400);
         dispose();
     }//GEN-LAST:event_mediumButtonActionPerformed
 
     private void hardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hardButtonActionPerformed
-        board.setNUM_COLS(38);
-        board.setNUM_ROWS(29);
+        board.setNUM_COLS(20);
+        board.setNUM_ROWS(20);
         board.initGame();
-        getParent().resize(384, 288);
+        getParent().resize(300, 300);
         dispose();
     }//GEN-LAST:event_hardButtonActionPerformed
 
@@ -137,8 +154,13 @@ public class SelectionDialog extends javax.swing.JDialog {
         board.viewRecords();
     }//GEN-LAST:event_viewRecordsActionPerformed
 
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton easyButton;
+    private javax.swing.JToggleButton exitButton;
     private javax.swing.JButton hardButton;
     private javax.swing.JButton mediumButton;
     private java.awt.Label selectionText;
