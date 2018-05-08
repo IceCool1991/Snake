@@ -54,8 +54,8 @@ public class Board extends JPanel implements ActionListener {
         timer = new Timer(deltaTime, this);
         keyAdapter = new MyKeyAdapter();
         setBackground(Color.BLACK);
-        NUM_COLS = 100;
-        NUM_ROWS = 100;
+        //NUM_COLS = 100;
+        //NUM_ROWS = 100;
     }
 
     public void setScoreBoard(ScoreBoard scoreBoard) {
@@ -142,7 +142,7 @@ public class Board extends JPanel implements ActionListener {
                 }
                 break;
             case DOWN:
-                if (head.row - 1 >= NUM_ROWS) {
+                if (head.row + 1 >= NUM_ROWS) {
                     gameOver = true;
                 }
                 break;

@@ -5,6 +5,7 @@
  */
 package snake;
 
+import java.awt.Dimension;
 import javax.swing.SwingUtilities;
 
 /**
@@ -130,7 +131,7 @@ public class SelectionDialog extends javax.swing.JDialog {
         board.setNUM_COLS(60);
         board.setNUM_ROWS(60);
         board.initGame();
-        getParent().resize(600, 600);
+        getParent().resize(843, 825);
         dispose();
     }//GEN-LAST:event_easyButtonActionPerformed
 
@@ -138,7 +139,7 @@ public class SelectionDialog extends javax.swing.JDialog {
         board.setNUM_COLS(40);
         board.setNUM_ROWS(40);
         board.initGame();
-        getParent().resize(400, 400);
+        getParent().resize(843, 805);
         dispose();
     }//GEN-LAST:event_mediumButtonActionPerformed
 
@@ -146,7 +147,7 @@ public class SelectionDialog extends javax.swing.JDialog {
         board.setNUM_COLS(20);
         board.setNUM_ROWS(20);
         board.initGame();
-        getParent().resize(300, 300);
+        getParent().resize(843, 825);
         dispose();
     }//GEN-LAST:event_hardButtonActionPerformed
 
